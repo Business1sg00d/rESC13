@@ -1,9 +1,16 @@
-References the following article: https://posts.specterops.io/adcs-esc13-abuse-technique-fda4272fbd53
+References the following article: https://posts.specterops.io/adcs-esc13-abuse-technique-fda4272fbd53.
+
+
+
+Build docker container then run:
+--------------------------------
+```docker run --network host -di image```
 
 
 
 Simple bind usage:
 ------------------
+
 ```./target/debug/ldap_rust -i 172.16.0.6 -u "CN=bruhurb,CN=Users,DC=fed,DC=local" -p "MyPassword123!!!" -d "DC=fed,DC=local"```
 
 
@@ -11,6 +18,7 @@ Simple bind usage:
 
 Kerberos usage:
 ---------------
+
 ```KRB5CCNAME=bruhurb\@dc02.fed.local.ccache ./target/debug/ldap_rust -k -i dc02.fed.local -d "DC=fed,DC=local"```
 
 
