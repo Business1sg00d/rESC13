@@ -184,6 +184,7 @@ fn main() -> Result<()> {
 
     // Compare Cert Policy OID to Cert Template OID
     for template in Templates_with_IssuancePolicies {
+        println!("[+] Looking for group links in template \"{}\"", template.dn.split(",").collect::<Vec<&str>>()[0]);
         for templateOid in template.msPKI_Certificate_Policy.into_iter() {
             // For the template, I only want policies that are associated with it
             let matched_oid: Vec<IssuanceTemplate> = Issuance_Policies.clone()
@@ -199,15 +200,11 @@ fn main() -> Result<()> {
                 .filter(|x| x.msDS_OIDToGroupLink != None)
                 .collect();
             
-            println!("[+] Looking for group links in template \"{}\"", template.dn.split(",").collect::<Vec<&str>>()[0]);
-
             if linkedGroups.is_empty() { continue; }
 
             let group = linkedGroups[0].msDS_OIDToGroupLink.clone().unwrap();
-            if !group.is_empty() {
-                let issuancePolicyDN = &linkedGroups[0].dn;
-                println!("[*] Linked to group(s) \"{:#?}\" via \"{}\"", group, issuancePolicyDN);
-            }
+            let issuancePolicyDN = &linkedGroups[0].dn;
+            println!("[*] Linked to group(s) \"{:#?}\" via \"{}\"", group, issuancePolicyDN);
         }
         println!("\n[~]\n");
     }
